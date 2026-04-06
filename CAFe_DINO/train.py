@@ -3,23 +3,15 @@ sys.path.append('/home/rfaulken/dinov3/CVPR')
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import datetime
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
 import argparse
 import torch
-import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from torch.utils.tensorboard import SummaryWriter
 from torch.optim.lr_scheduler import OneCycleLR
-from torch.profiler import profile, record_function, ProfilerActivity
 import torch.distributed as dist
-from torch.nn.parallel import DistributedDataParallel as DDP
 
 import albumentations as A
 
 from rich import print
-from rich.console import Console
 
 from tqdm import tqdm
 from omegaconf import OmegaConf
@@ -96,14 +88,8 @@ def val_suite(model, writer, tokenizer, batch_idx):
     val_dataset_potsdam = PotsdamDataset(split="val", transform=val_transform)
     val_loader_potsdam = DataLoader(val_dataset_potsdam, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
 
-    val_dataset_isaid = ISAIDDataset(split="val", transform=val_transform)
-    val_loader_isaid = DataLoader(val_dataset_isaid, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
-
     val_dataset_loveda = LoveDADataset(split="val", transform=val_transform)
     val_loader_loveda = DataLoader(val_dataset_loveda, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
-
-    val_dataset_dlrsd = DLRSDDataset(split="val", transform=val_transform)
-    val_loader_dlrsd = DataLoader(val_dataset_dlrsd, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
 
     val_dataset_oem = OpenEarthMapDataset(split_file="val_noxd.txt", transform=val_transform)
     val_loader_oem = DataLoader(val_dataset_oem, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
