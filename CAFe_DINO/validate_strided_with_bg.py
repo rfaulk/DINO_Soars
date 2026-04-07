@@ -1,7 +1,7 @@
 import sys
-sys.path.append('/home/rfaulken/dinov3/CVPR')
+sys.path.append('/home/rfaulken/dinov3')
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 import datetime
 import torch
 from torch.utils.data import DataLoader
@@ -11,7 +11,6 @@ import albumentations as A
 from rich import print
 from rich.console import Console
 
-from tqdm import tqdm
 from omegaconf import OmegaConf
 
 from data.vaihingen import VaihingenDataset
@@ -25,7 +24,7 @@ import argparse
 
 from utils import log_print, logger, validate
 
-from CAFe_DINO.modeling.cafedino import CAFe_DINO
+from modeling.cafedino import CAFe_DINO
 from anyup.anyup.model import AnyUp
 from val_data import *
 torch.set_float32_matmul_precision('high')
@@ -40,20 +39,30 @@ def geobench_collate_fn(batch):
     labels = torch.stack([torch.tensor(b.label.data) for b in batch])
     return {"image": images, "label": labels}
 
-def val_suite(model):
-    oem_num_classes = OEM_NUM_CLASSES - 1
-    vaihingen_num_classes = VAIHINGEN_NUM_CLASSES - 1
-    loveda_num_classes = LOVEDA_NUM_CLASSES - 1
-    OEM_CLASS_NAMES[0].remove("background")
-    VAIHINGEN_CLASS_NAMES[0].remove("background")
-    LOVE_DA_CLASS_NAMES[0].remove("background")
+# class GeoBenchTransform(torch.nn.Module):
+#     def forward(self, img):
+#         new_img = torch.tensor(img.pack_to_3d(("red", "green", "blue"))[0])
+#         new_label = torch.tensor(img.label.data)
+#         return new_img#, new_label
 
-    miou_agg = 0
-    miou_agg += validate(model, tokenizer, val_loader_vaihingen, DEVICE, vaihingen_num_classes, class_names=VAIHINGEN_CLASS_NAMES, save_path="vaihingen_confmat.png", strided=STRIDED, ignore_index=[5,255])
-    miou_agg += validate(model, tokenizer, val_loader_oem, DEVICE, oem_num_classes, class_names=OEM_CLASS_NAMES, save_path="oem_confmat.png", strided=STRIDED, ignore_index=[255])
-    miou_agg += validate(model, tokenizer, val_loader_potsdam, DEVICE, vaihingen_num_classes, class_names=VAIHINGEN_CLASS_NAMES, save_path="potsdam_confmat.png", strided=STRIDED, ignore_index=[5,255])
-    miou_agg += validate(model, tokenizer, val_loader_loveda, DEVICE, loveda_num_classes, class_names=LOVE_DA_CLASS_NAMES, save_path="loveda_confmat.png", strided=STRIDED, ignore_index=[255])
-    print(f"FINAL_MIOU {miou_agg:.6f}")
+def val_suite(model):
+    oem_num_classes = OEM_NUM_CLASSES# - 1
+    vaihingen_num_classes = VAIHINGEN_NUM_CLASSES# - 1
+    loveda_num_classes = LOVEDA_NUM_CLASSES# - 1
+    OEM_CLASS_NAMES[0]#.remove("background")
+    VAIHINGEN_CLASS_NAMES[0]#.remove("background")
+    LOVE_DA_CLASS_NAMES[0]#.remove("background")
+
+    # print(OEM_CLASS_NAMES, oem_num_classes)
+    # miou_agg = 0
+    for thresh in [0.1, 0.2, 0.3, 0.4]:
+        validate(model, tokenizer, val_loader_vaihingen, DEVICE, vaihingen_num_classes, class_names=VAIHINGEN_CLASS_NAMES, save_path="vaihingen_confmat.png", strided=STRIDED, ignore_index=[255], thresh=thresh, bg_idx=5)
+    for thresh in [0.1, 0.2, 0.3, 0.4]:
+        validate(model, tokenizer, val_loader_oem, DEVICE, oem_num_classes, class_names=OEM_CLASS_NAMES, save_path="oem_confmat.png", strided=STRIDED, ignore_index=[255], thresh=thresh, bg_idx=0)
+    for thresh in [0.1, 0.2, 0.3, 0.4]:
+        validate(model, tokenizer, val_loader_potsdam, DEVICE, vaihingen_num_classes, class_names=VAIHINGEN_CLASS_NAMES, save_path="potsdam_confmat.png", strided=STRIDED, ignore_index=[255], thresh=thresh, bg_idx=5)
+    for thresh in [0.5, 0.6, 0.7]:
+        validate(model, tokenizer, val_loader_loveda, DEVICE, loveda_num_classes, class_names=LOVE_DA_CLASS_NAMES, save_path="loveda_confmat.png", strided=STRIDED, ignore_index=[255], thresh=thresh, bg_idx=0)
 
 parser = argparse.ArgumentParser(description="Read a single string from the command line")
 parser.add_argument("--config", type=str, help="Input string")
@@ -65,6 +74,8 @@ config_file = args.config
 weights_path = args.model
 print("Config:", config_file)
 print("Weights:", weights_path)
+
+cfg = OmegaConf.load(config_file)
 
 cfg = OmegaConf.load(config_file)
 
@@ -112,15 +123,15 @@ val_loader_vaihingen = DataLoader(val_dataset_vaihingen, batch_size=batch_size, 
 val_dataset_potsdam = PotsdamDataset(split="val", transform=val_transform, transform_no_resize=val_transform_no_resize)
 val_loader_potsdam = DataLoader(val_dataset_potsdam, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
 
-val_dataset_loveda = LoveDADataset(split="val", transform=val_transform, transform_no_resize=val_transform_no_resize)
+val_dataset_loveda = LoveDADataset(split="val", transform=val_transform, transform_no_resize=val_transform_no_resize, include_bg=True)
 val_loader_loveda = DataLoader(val_dataset_loveda, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
 
-val_dataset_oem = OpenEarthMapDataset(split_file="val_noxd.txt", transform=val_transform, transform_no_resize=val_transform_no_resize)
+val_dataset_oem = OpenEarthMapDataset(split_file="val_noxd.txt", transform=val_transform, transform_no_resize=val_transform_no_resize, include_bg=True)
 val_loader_oem = DataLoader(val_dataset_oem, batch_size=batch_size, shuffle=False, num_workers=16, pin_memory=False, drop_last=True)
 
 torch.manual_seed(42)
 
-log_dir = "/home/rfaulken/dinov3/CVPR/output_val"
+log_dir = "/home/rfaulken/dinov3/output_val"
 writer, version, new_log_dir = logger(log_dir)
 print("Version:", version)
 

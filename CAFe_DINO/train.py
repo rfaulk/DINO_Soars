@@ -125,7 +125,7 @@ def main():
     print(args.config)
 
     config_file = args.config
-    cfg = OmegaConf.load("/home/rfaulken/dinov3/CAFe_DINO/configs/" + config_file + ".yaml")
+    cfg = OmegaConf.load(config_file)
 
     batch_size = cfg.batch_size
     backbone, tokenizer = dinov3_vitl16_dinotxt_tet1280d20h24l()
@@ -142,7 +142,6 @@ def main():
     model.to(device)
 
     model = torch.compile(model)
-    # model = DDP(model, device_ids=[rank])
 
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, label_smoothing=0.1)
     optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr)
