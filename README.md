@@ -41,25 +41,41 @@ outperforming OVSS methods fine-tuned on RS data*
 
 
 ```
-# 2. git clone this repository
+# 1. git clone this repository
 git clone https://github.com/rfaulk/DINO_Soars.git
-cd todo
+cd DINO_Soars
 
-# 3. create new anaconda env
-conda create -n cafedino python=3.9
+# 2. create new anaconda env
+conda create -n cafedino python=3.11
 conda activate cafedino
 
-# install torch and dependencies
+# 3. install torch and dependencies
+Install torch 2.11 first: (https://pytorch.org/get-started/locally/) or (https://pytorch.org/get-started/previous-versions/)
 pip install -r requirements.txt
 ```
 
+## Usage
 
+### Training
+You will need to reset some paths in train.py to match your filetree. To train our best performing model:
+
+```python train.py --config configs/config_cocostuff_subset_frz_text.yaml```
+
+### Validation
+You will again need to set your own paths in these python files. We offer validation with and without background classes. To reproduce our model's result:
+
+```
+python validate_strided.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
+python validate_strided_with_bg.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
+```
+
+### Inference and analysis
+We provide a tool that shows both the segmentation prediction and each cost map for a given image. Run like so:
+
+```python analysis.py --weights ../best.pth --image ./sample_images/top_potsdam_4_13_RGB_y00_x00.tif```
 
 ## Citation
-
-```
-
-```
+todo
 
 ## Acknowledgement
-This implementation is based on [ClearCLIP](https://github.com/mc-lan/ClearCLIP) and [FeatUp](https://github.com/mhamilton723/FeatUp). Thanks for the awesome work.
+todo
