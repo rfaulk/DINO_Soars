@@ -64,13 +64,18 @@ You will again need to set your own paths in these python files. We offer valida
 
 ```
 python validate_strided.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
+```
+
+```
 python validate_strided_with_bg.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
 ```
 
 ### Inference and analysis
 We provide a tool that shows both the segmentation prediction and each cost map for a given image. Run like so:
 
-```python analysis.py --weights ../best.pth --image ./sample_images/top_potsdam_4_13_RGB_y00_x00.tif```
+```
+python analysis.py --weights ../best.pth --image ./sample_images/top_potsdam_4_13_RGB_y00_x00.tif
+```
 
 ## Citation
 todo
