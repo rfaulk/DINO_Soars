@@ -2,7 +2,7 @@
 
 <h1>DINO Soars: DINOv3 for Open-Vocabulary Semantic Segmentation of Remote Sensing Imagery</h1>
 
-<h3>💖CVPRW: Morse 2026💖</h3>
+<h3>💖CVPRW: MORSE 2026💖</h3>
 
 <div>
     Ryan Faukenberry&emsp;
