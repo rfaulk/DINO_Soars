@@ -39,18 +39,16 @@ outperforming OVSS methods fine-tuned on RS data*
 
 ## Dependencies and Installation
 
-
 ```
-# 1. git clone this repository
 git clone https://github.com/rfaulk/DINO_Soars.git
 cd DINO_Soars
-
-# 2. create new anaconda env
 conda create -n cafedino python=3.11
 conda activate cafedino
+```
 
-# 3. install torch and dependencies
-Install torch 2.11 first: (https://pytorch.org/get-started/locally/) or (https://pytorch.org/get-started/previous-versions/)
+Install torch 2.11 before requirements.txt: (https://pytorch.org/get-started/locally/) or (https://pytorch.org/get-started/previous-versions/)
+
+```
 pip install -r requirements.txt
 ```
 
