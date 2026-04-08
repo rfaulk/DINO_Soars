@@ -1,5 +1,6 @@
 import sys
-sys.path.append('/home/rfaulken/dinov3/CVPR')
+sys.path.append('..')
+sys.path.append('../anyup')
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import datetime
@@ -25,7 +26,6 @@ from data.loveda import LoveDADataset
 from dinov3.hub.dinotxt import dinov3_vitl16_dinotxt_tet1280d20h24l
 
 from CAFe_DINO.modeling.cafedino import CAFe_DINO
-from anyup.anyup.model import AnyUp
 from utils import log_print, logger, validate
 from val_data import *
 torch.set_float32_matmul_precision('high')
@@ -125,13 +125,12 @@ def main():
     print(args.config)
 
     config_file = args.config
-    cfg = OmegaConf.load("/home/rfaulken/dinov3/CAFe_DINO/configs/" + config_file + ".yaml")
+    cfg = OmegaConf.load(config_file)
 
     batch_size = cfg.batch_size
     backbone, tokenizer = dinov3_vitl16_dinotxt_tet1280d20h24l()
 
-    upsampler = AnyUp()
-    upsampler.load_state_dict(torch.load("/home/rfaulken/dinov3/weights/anyup_paper.pth", map_location="cpu"))
+    upsampler = torch.hub.load("wimmerth/anyup", "anyup", verbose=False).to(device).eval()
 
     if 'linear' in cfg:
         use_linear_transformer = cfg.linear
@@ -181,7 +180,7 @@ def main():
 
     torch.manual_seed(42)
 
-    log_dir = "/home/rfaulken/dinov3/output/" + config_file + "/"
+    log_dir = "./" + config_file + "/"
     writer, version, new_log_dir = logger(log_dir)
     print("Version:", version)
 

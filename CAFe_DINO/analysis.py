@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/rfaulken/dinov3/CVPR')
+sys.path.append('..')
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 import numpy as np
@@ -25,7 +25,7 @@ from val_data import *
 from utils import build_text_embeddings, strided_inf, plot, overlay_segmentation
 torch.set_float32_matmul_precision('high')
 
-cfg = OmegaConf.load("/home/rfaulken/dinov3/CAFe_DINO/configs/config_cocostuff_subset.yaml")
+cfg = OmegaConf.load("./configs/config_cocostuff_subset.yaml")
 
 device = "cuda"
 
@@ -52,9 +52,8 @@ batch_size = 1
 backbone, tokenizer = dinov3_vitl16_dinotxt_tet1280d20h24l()
 backbone.to(device).eval()
 
-upsampler = AnyUp()
-upsampler.load_state_dict(torch.load("/home/rfaulken/dinov3/weights/anyup_paper.pth"))
-upsampler.eval()
+upsampler = torch.hub.load("wimmerth/anyup", "anyup", verbose=False).to(device).eval()
+
 model = CAFe_DINO(backbone, tokenizer, upsampler, input_resolution=(INPUT_SIZE // 16, INPUT_SIZE // 16), device=device, aggregator_dim=cfg.aggregator_dim)
 
 model.to(device)
@@ -111,7 +110,7 @@ OEM_CLASS_NAMES[0].remove("background")
 VAIHINGEN_CLASS_NAMES[0].remove("background")
 LOVE_DA_CLASS_NAMES[0].remove("background")
 
-img_path = '/home/rfaulken/dinov3/CVPR/CAFe_DINO/sample_images/top_potsdam_4_13_RGB_y00_x00.tif'
+img_path = './sample_images/top_potsdam_4_13_RGB_y00_x00.tif'
 
 if "vaihingen" in img_path or "potsdam" in img_path:
     class_names = VAIHINGEN_CLASS_NAMES

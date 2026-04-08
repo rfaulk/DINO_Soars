@@ -3,7 +3,7 @@ NOTE to self, this guy gets used in automation thru findbest.sh, so don't change
 Use the _copy instead
 """
 import sys
-sys.path.append('/home/rfaulken/dinov3/CVPR')
+sys.path.append('..')
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import datetime
@@ -15,7 +15,6 @@ import albumentations as A
 from rich import print
 from rich.console import Console
 
-from tqdm import tqdm
 from omegaconf import OmegaConf
 
 from data.vaihingen import VaihingenDataset
@@ -30,7 +29,6 @@ import argparse
 from utils import log_print, logger, validate
 
 from CAFe_DINO.modeling.cafedino import CAFe_DINO
-from anyup.anyup.model import AnyUp
 from val_data import *
 torch.set_float32_matmul_precision('high')
 
@@ -60,8 +58,8 @@ def val_suite(model):
     print(f"FINAL_MIOU {miou_agg:.6f}")
 
 parser = argparse.ArgumentParser(description="Read a single string from the command line")
-parser.add_argument("--config", type=str, help="Input string")
-parser.add_argument("--model", type=str, help="weights")
+parser.add_argument("--config", type=str, help="Input string", required=True)
+parser.add_argument("--model", type=str, help="weights", required=True)
 
 args = parser.parse_args()
 
@@ -77,9 +75,8 @@ batch_size = 1
 backbone, tokenizer = dinov3_vitl16_dinotxt_tet1280d20h24l()
 backbone.to(DEVICE)
 
-upsampler = AnyUp()
-upsampler.load_state_dict(torch.load("/home/rfaulken/dinov3/weights/anyup_paper.pth"))
-upsampler.eval()
+upsampler = torch.hub.load("wimmerth/anyup", "anyup", verbose=False).to(DEVICE).eval()
+
 model = CAFe_DINO(backbone, tokenizer, upsampler, input_resolution=(INPUT_SIZE // 16, INPUT_SIZE // 16), device=DEVICE, aggregator_dim=cfg.aggregator_dim)
 model.to(DEVICE)
 sd = torch.load(weights_path)
@@ -125,7 +122,7 @@ val_loader_oem = DataLoader(val_dataset_oem, batch_size=batch_size, shuffle=Fals
 
 torch.manual_seed(42)
 
-log_dir = "/home/rfaulken/dinov3/CVPR/output_val"
+log_dir = "./output_val"
 writer, version, new_log_dir = logger(log_dir)
 print("Version:", version)
 
