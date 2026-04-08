@@ -1,7 +1,7 @@
 import sys
-sys.path.append('/home/rfaulken/dinov3')
+sys.path.append('..')
 import os
-# os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 import datetime
 import torch
 from torch.utils.data import DataLoader
@@ -25,7 +25,6 @@ import argparse
 from utils import log_print, logger, validate
 
 from modeling.cafedino import CAFe_DINO
-from anyup.anyup.model import AnyUp
 from val_data import *
 torch.set_float32_matmul_precision('high')
 
@@ -83,9 +82,8 @@ batch_size = 1
 backbone, tokenizer = dinov3_vitl16_dinotxt_tet1280d20h24l()
 backbone.to(DEVICE)
 
-upsampler = AnyUp()
-upsampler.load_state_dict(torch.load("/home/rfaulken/dinov3/weights/anyup_paper.pth"))
-upsampler.eval()
+upsampler = torch.hub.load("wimmerth/anyup", "anyup", verbose=False).to(DEVICE).eval()
+
 model = CAFe_DINO(backbone, tokenizer, upsampler, input_resolution=(INPUT_SIZE // 16, INPUT_SIZE // 16), device=DEVICE, aggregator_dim=cfg.aggregator_dim)
 model.to(DEVICE)
 sd = torch.load(weights_path)
@@ -131,7 +129,7 @@ val_loader_oem = DataLoader(val_dataset_oem, batch_size=batch_size, shuffle=Fals
 
 torch.manual_seed(42)
 
-log_dir = "/home/rfaulken/dinov3/output_val"
+log_dir = "./output_val"
 writer, version, new_log_dir = logger(log_dir)
 print("Version:", version)
 

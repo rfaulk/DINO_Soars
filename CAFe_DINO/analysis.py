@@ -1,5 +1,6 @@
 import sys
 sys.path.append('..')
+sys.path.append('../anyup')
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 import numpy as np
@@ -20,7 +21,6 @@ from omegaconf import OmegaConf
 from dinov3.hub.dinotxt import dinov3_vitl16_dinotxt_tet1280d20h24l
 
 from CAFe_DINO.modeling.cafedino import CAFe_DINO
-from anyup.anyup.model import AnyUp
 from val_data import *
 from utils import build_text_embeddings, strided_inf, plot, overlay_segmentation
 torch.set_float32_matmul_precision('high')

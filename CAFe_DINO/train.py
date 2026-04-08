@@ -179,7 +179,7 @@ def main():
 
     torch.manual_seed(42)
 
-    log_dir = "./" + config_file + "/"
+    log_dir = "./" + config_file.split('/')[-1][:-5] + "/"
     writer, version, new_log_dir = logger(log_dir)
     print("Version:", version)
 
