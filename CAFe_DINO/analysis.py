@@ -45,6 +45,7 @@ def get_raw_cost_vol(model, img, text_emb):
 
 parser = argparse.ArgumentParser(description="Read a single string from the command line")
 parser.add_argument("--weights", type=str, help="Input string", required=True)
+parser.add_argument("--image", type=str, help="Input string", required=True)
 
 args = parser.parse_args()
 
@@ -110,7 +111,7 @@ OEM_CLASS_NAMES[0].remove("background")
 VAIHINGEN_CLASS_NAMES[0].remove("background")
 LOVE_DA_CLASS_NAMES[0].remove("background")
 
-img_path = './sample_images/top_potsdam_4_13_RGB_y00_x00.tif'
+img_path = args.image
 
 if "vaihingen" in img_path or "potsdam" in img_path:
     class_names = VAIHINGEN_CLASS_NAMES

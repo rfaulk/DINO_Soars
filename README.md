@@ -2,7 +2,7 @@
 
 <h1>DINO Soars: DINOv3 for Open-Vocabulary Semantic Segmentation of Remote Sensing Imagery</h1>
 
-<h3>💖CVPRW: Morse 2026💖</h3>
+<h3>💖CVPRW: MORSE 2026💖</h3>
 
 <div>
     Ryan Faukenberry&emsp;
@@ -18,7 +18,7 @@
     </h4>
 </div>
 
-<img src="https://rfaulken.github.io/dinosoars.png" width="100%"/>
+<img src="https://github.com/rfaulk/DINO_Soars/blob/main/dinosoars.png" width="100%"/>
 Open-vocabulary segmentation maps from our model, CAFe-DINO. CAFe-DINO can accurately segment remote sensing scenes
 with arbitrary semantic classes, despite zero training on remote sensing imagery.
 
@@ -39,27 +39,46 @@ outperforming OVSS methods fine-tuned on RS data*
 
 ## Dependencies and Installation
 
+```
+git clone https://github.com/rfaulk/DINO_Soars.git
+cd DINO_Soars
+conda create -n cafedino python=3.11
+conda activate cafedino
+```
+
+Install torch 2.11 before requirements.txt: (https://pytorch.org/get-started/locally/) or (https://pytorch.org/get-started/previous-versions/)
 
 ```
-# 2. git clone this repository
-git clone https://github.com/rfaulk/DINO_Soars.git
-cd todo
-
-# 3. create new anaconda env
-conda create -n cafedino python=3.9
-conda activate cafedino
-
-# install torch and dependencies
 pip install -r requirements.txt
 ```
 
+## Usage
 
+### Training
+You will need to reset some paths in train.py to match your filetree. To train our best performing model:
+
+```python train.py --config configs/config_cocostuff_subset_frz_text.yaml```
+
+### Validation
+You will again need to set your own paths in these python files. We offer validation with and without background classes. To reproduce our model's result:
+
+```
+python validate_strided.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
+```
+
+```
+python validate_strided_with_bg.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
+```
+
+### Inference and analysis
+We provide a tool that shows both the segmentation prediction and each cost map for a given image. Run like so:
+
+```
+python analysis.py --weights ../best.pth --image ./sample_images/top_potsdam_4_13_RGB_y00_x00.tif
+```
 
 ## Citation
-
-```
-
-```
+todo
 
 ## Acknowledgement
-This implementation is based on [ClearCLIP](https://github.com/mc-lan/ClearCLIP) and [FeatUp](https://github.com/mhamilton723/FeatUp). Thanks for the awesome work.
+todo

@@ -141,7 +141,6 @@ def main():
     model.to(device)
 
     model = torch.compile(model)
-    # model = DDP(model, device_ids=[rank])
 
     criterion = torch.nn.CrossEntropyLoss(ignore_index=255, label_smoothing=0.1)
     optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr)
