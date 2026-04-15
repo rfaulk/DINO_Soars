@@ -18,7 +18,7 @@
     </h4>
 </div>
 
-<img src="https://github.com/rfaulk/DINO_Soars/blob/main/dinosoars.png" width="90%"/>
+<img src="https://github.com/rfaulk/DINO_Soars/blob/main/dinosoars.png" width="100%"/>
 Open-vocabulary segmentation maps from our model, CAFe-DINO. CAFe-DINO can accurately segment remote sensing scenes
 with arbitrary semantic classes, despite zero training on remote sensing imagery.
 
