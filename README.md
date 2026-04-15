@@ -18,7 +18,7 @@
     </h4>
 </div>
 
-<img src="https://github.com/rfaulk/DINO_Soars/blob/main/dinosoars.png" width="100%"/>
+<img src="https://github.com/rfaulk/DINO_Soars/blob/main/dinosoars.png" width="90%"/>
 Open-vocabulary segmentation maps from our model, CAFe-DINO. CAFe-DINO can accurately segment remote sensing scenes
 with arbitrary semantic classes, despite zero training on remote sensing imagery.
 
@@ -38,7 +38,7 @@ on RS imagery; we instead fine-tune our model on a RS-targeted subset of COCO-St
 outperforming OVSS methods fine-tuned on RS data*
 
 </div>
-<img src="https://github.com/rfaulk/DINO_Soars/blob/main/blockdia1.png" width="100%"/>
+<img src="https://github.com/rfaulk/DINO_Soars/blob/main/blockdia1.png" width="70%"/>
 Our method leverages the strong latent RS capability of DINOv3 with cost aggregation and feature-agnostic upsampling to achieve SOTA performance on RS OVSS tasks.
 </div>
 
