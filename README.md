@@ -14,8 +14,12 @@
 
 <div>
     <h4 align="center">
-        • todo arXiv link go here •
+        • todo list •
     </h4>
+    ❌ test code on a fresh machine
+    ❌ upload to arxiv
+    ❌ link arxiv here
+    ❌ citation
 </div>
 
 <img src="https://github.com/rfaulk/DINO_Soars/blob/main/dinosoars.png" width="100%"/>
