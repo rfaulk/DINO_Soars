@@ -60,7 +60,7 @@ pip install -r requirements.txt
 ## Usage
 
 ### Training
-You will need to reset some paths in train.py to match your filetree. To train our best performing model:
+To train our best performing model:
 
 ```python train.py --config configs/config_cocostuff_subset_frz_text.yaml```
 
