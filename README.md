@@ -37,6 +37,11 @@ of the DINOv3 backbone eliminates the need for fine-tuning
 on RS imagery; we instead fine-tune our model on a RS-targeted subset of COCO-Stuff. CAFe-DINO achieves state-of-the-art performance on key RS segmentation datasets,
 outperforming OVSS methods fine-tuned on RS data*
 
+</div>
+<img src="https://github.com/rfaulk/DINO_Soars/blob/main/blockdia1.png" width="100%"/>
+Our method leverages the strong latent RS capability of DINOv3 with cost aggregation and feature-agnostic upsampling to achieve SOTA performance on RS OVSS tasks.
+</div>
+
 ## Dependencies and Installation
 
 ```
