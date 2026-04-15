@@ -59,20 +59,23 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Weights
+Our best performing model weights are available here: https://huggingface.co/rfaulken/cafedino
+
 ### Training
 To train our best performing model:
 
 ```python train.py --config configs/config_cocostuff_subset_frz_text.yaml```
 
 ### Validation
-You will again need to set your own paths in these python files. We offer validation with and without background classes. To reproduce our model's result:
+We offer validation with and without background classes. To reproduce our model's result:
 
 ```
-python validate_strided.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
+python validate_strided.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../weights.pth
 ```
 
 ```
-python validate_strided_with_bg.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../best.pth
+python validate_strided_with_bg.py --config configs/config_cocostuff_subset_frz_text.yaml --model ../weights.pth
 ```
 
 ### Inference and analysis
@@ -83,7 +86,4 @@ python analysis.py --weights ../best.pth --image ./sample_images/top_potsdam_4_1
 ```
 
 ## Citation
-todo
-
-## Acknowledgement
 todo
