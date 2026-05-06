@@ -14,12 +14,8 @@
 
 <div>
     <h4 align="center">
-        • todo list •
+        • https://arxiv.org/abs/2605.03175 •
     </h4>
-    ❌ test code on a fresh machine
-    ❌ upload to arxiv
-    ❌ link arxiv here
-    ❌ citation
 </div>
 
 <img src="https://github.com/rfaulk/DINO_Soars/blob/main/dinosoars.png" width="100%"/>
@@ -90,4 +86,14 @@ python analysis.py --weights ../best.pth --image ./sample_images/top_potsdam_4_1
 ```
 
 ## Citation
-todo
+If you use CAFe-DINO in your work, kindly cite us:
+```
+@InProceedings{faulkenberry2026dino,
+  author    = {Faulkenberry, Ryan and Prasad, Saurabh},
+  title     = {DINO Soars: DINOv3 for Open-Vocabulary Semantic Segmentation of Remote Sensing Imagery},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)},
+  year      = {2026}
+}
+```
+
+Thank you to [DINOv3](https://github.com/facebookresearch/dinov3) and [AnyUp](https://github.com/wimmerth/anyup), upon whose shoulders we stand.
