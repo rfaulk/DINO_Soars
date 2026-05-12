@@ -2,7 +2,10 @@
 
 <h1>DINO Soars: DINOv3 for Open-Vocabulary Semantic Segmentation of Remote Sensing Imagery</h1>
 
-<h3>💖 CVPRW: MORSE 2026 💖</h3>
+<h3>
+    💖 CVPRW: <a href="https://sites.google.com/view/cvpr-morse/">MORSE 2026</a> 💖
+    
+</h3>
 
 <div>
     Ryan Faukenberry&emsp;
@@ -14,7 +17,7 @@
 
 <div>
     <h4 align="center">
-        • https://arxiv.org/abs/2605.03175 •
+        • <a href="https://arxiv.org/abs/2605.03175">arXiv link</a> •
     </h4>
 </div>
 
