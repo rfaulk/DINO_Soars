@@ -70,6 +70,9 @@ To train our best performing model:
 
 ```python train.py --config configs/config_cocostuff_subset_frz_text.yaml```
 
+### Validation Dataset Preparation
+We sub-tile Potsdam and Vaihingen dataset before validation. To reproduce our results on these datasets, use the preprocessing scripts in `data/`
+
 ### Validation
 We offer validation with and without background classes. To reproduce our model's result:
 
