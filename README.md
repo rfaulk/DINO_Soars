@@ -65,6 +65,9 @@ pip install -r requirements.txt
 ### Weights
 Our best performing model weights are available here: https://huggingface.co/rfaulken/cafedino
 
+### Training Dataset Preparation
+Use the preprocessing script in `data/` to prepare COCO-Stuff for training.
+
 ### Training
 To train our best performing model:
 
