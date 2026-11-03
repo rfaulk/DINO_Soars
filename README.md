@@ -94,11 +94,13 @@ python analysis.py --weights ../best.pth --image ./sample_images/top_potsdam_4_1
 ## Citation
 If you use CAFe-DINO in your work, kindly cite us:
 ```
-@InProceedings{faulkenberry2026dino,
-  author    = {Faulkenberry, Ryan and Prasad, Saurabh},
-  title     = {DINO Soars: DINOv3 for Open-Vocabulary Semantic Segmentation of Remote Sensing Imagery},
-  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW)},
-  year      = {2026}
+@InProceedings{Faulkenberry_2026_CVPR,
+    author    = {Faulkenberry, Ryan and Prasad, Saurabh},
+    title     = {DINO Soars: DINOv3 for Open-Vocabulary Semantic Segmentation of Remote Sensing Imagery},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops},
+    month     = {June},
+    year      = {2026},
+    pages     = {7781-7791}
 }
 ```
 
